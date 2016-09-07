@@ -1,12 +1,13 @@
 {
   "name": "seed-element",
-  "version": "1.0.7",
+  "version": "0.0.0",
   "authors": [
-    "Anonymous <anonymous@example.com>"
+    "amiliteev@msn.com"
   ],
   "description": "An element providing a solution to no problem in particular.",
   "keywords": [
     "web-component",
+    "web-components",
     "polymer",
     "seed"
   ],
@@ -15,13 +16,14 @@
   "homepage": "https://github.com/<USERNAME>/seed-element/",
   "ignore": [
     "/.*",
-    "/test/"
+    "/test/",
+    "/demo/"
   ],
   "dependencies": {
-    "polymer": "Polymer/polymer#^1.2.0"
+    "polymer": "Polymer/polymer#~0.9.3"
   },
   "devDependencies": {
-    "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",
-    "web-component-tester": "^4.0.0"
+    "iron-component-page": "PolymerElements/iron-component-page#~0.9.3",
+    "web-component-tester": "*"
   }
 }
