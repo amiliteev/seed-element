@@ -12,16 +12,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="iron-selectable.html">
 
 <script>
-
+  /** @polymerBehavior Polymer.IronMultiSelectableBehavior */
   Polymer.IronMultiSelectableBehaviorImpl = {
     properties: {
 
       /**
        * If true, multiple selections are allowed.
-       *
-       * @attribute multi
-       * @type Boolean
-       * @default false
        */
       multi: {
         type: Boolean,
@@ -32,9 +28,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       /**
        * Gets or sets the selected elements. This is used instead of `selected` when `multi`
        * is true.
-       *
-       * @attribute selectedValues
-       * @type Array
        */
       selectedValues: {
         type: Array,
@@ -43,9 +36,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       /**
        * Returns an array of currently selected items.
-       *
-       * @attribute selectedItems
-       * @type Array
        */
       selectedItems: {
         type: Array,
@@ -56,7 +46,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     },
 
     observers: [
-      '_updateSelected(attrForSelected, selectedValues)'
+      '_updateSelected(selectedValues.splices)'
     ],
 
     /**
@@ -64,7 +54,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
      * `value` will be toggled; otherwise the `value` will be selected.
      *
      * @method select
-     * @param {string} value the value to select.
+     * @param {string|number} value the value to select.
      */
     select: function(value) {
       if (this.multi) {
@@ -82,6 +72,23 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       this._selection.multi = multi;
     },
 
+    get _shouldUpdateSelection() {
+      return this.selected != null ||
+        (this.selectedValues != null && this.selectedValues.length);
+    },
+
+    _updateAttrForSelected: function() {
+      if (!this.multi) {
+        Polymer.IronSelectableBehavior._updateAttrForSelected.apply(this);
+      } else if (this._shouldUpdateSelection) {
+        this.selectedValues = this.selectedItems.map(function(selectedItem) {
+          return this._indexToValue(this.indexOf(selectedItem));
+        }, this).filter(function(unfilteredValue) {
+          return unfilteredValue != null;
+        }, this);
+      }
+    },
+
     _updateSelected: function() {
       if (this.multi) {
         this._selectMulti(this.selectedValues);
@@ -91,11 +98,23 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     },
 
     _selectMulti: function(values) {
-      this._selection.clear();
       if (values) {
-        for (var i = 0; i < values.length; i++) {
-          this._selection.setItemSelected(this._valueToItem(values[i]), true);
+        var selectedItems = this._valuesToItems(values);
+        // clear all but the current selected items
+        this._selection.clear(selectedItems);
+        // select only those not selected yet
+        for (var i = 0; i < selectedItems.length; i++) {
+          this._selection.setItemSelected(selectedItems[i], true);
         }
+        // Check for items, since this array is populated only when attached
+        if (this.fallbackSelection && this.items.length && !this._selection.get().length) {
+          var fallback = this._valueToItem(this.fallbackSelection);
+          if (fallback) {
+            this.selectedValues = [this.fallbackSelection];
+          }
+        }
+      } else {
+        this._selection.clear();
       }
     },
 
@@ -113,11 +132,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       var i = this.selectedValues.indexOf(value);
       var unselected = i < 0;
       if (unselected) {
-        this.selectedValues.push(value);
+        this.push('selectedValues',value);
       } else {
-        this.selectedValues.splice(i, 1);
+        this.splice('selectedValues',i,1);
       }
-      this._selection.setItemSelected(this._valueToItem(value), unselected);
+    },
+
+    _valuesToItems: function(values) {
+      return (values == null) ? null : values.map(function(value) {
+        return this._valueToItem(value);
+      }, this);
     }
   };
 

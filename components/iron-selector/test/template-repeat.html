@@ -1,5 +1,6 @@
 <!doctype html>
 <!--
+@license
 Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
 This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
 The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
@@ -17,9 +18,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
   <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
   <script src="../../web-component-tester/browser.js"></script>
-  <script src="../../test-fixture/test-fixture-mocha.js"></script>
 
-  <link rel="import" href="../../test-fixture/test-fixture.html">
   <link rel="import" href="../iron-selector.html">
 
   <style>
@@ -31,76 +30,70 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 </head>
 <body>
 
-  <test-fixture id="test">
-    <template>
-      <iron-selector id="selector" selected="1">
-        <template id="t" is="dom-repeat">
-          <div id$="[[item.name]]">{{item.name}}</div>
-        </template>
-      </iron-selector>
-    </template>
-  </test-fixture>
+  <template is="dom-bind">
+    <iron-selector id="selector" selected="1">
+      <template id="t" is="dom-repeat">
+        <div id$="[[item.name]]">{{item.name}}</div>
+      </template>
+    </iron-selector>
+  </template>
 
   <script>
 
     suite('dom-repeat', function() {
 
-      var s, t;
+      var scope, s, t;
 
-      setup(function () {
-        s = fixture('test');
-        t = s.querySelector('#t');
+      setup(function() {
+        scope = document.querySelector('template[is="dom-bind"]');
+        s = scope.$.selector;
+        t = scope.$.t;
+        t.items = [{name:'item0'}, {name: 'item1'}, {name: 'item2'}, {name: 'item3'}];
       });
 
-      test('supports repeated items', function(done) {
-        t.items = [{name:'item0'}, {name: 'item1'}, {name: 'item2'}, {name: 'item3'}];
-        setTimeout(function() {
-          // check items
-          assert.equal(s.items.length, 4);
-          // check selected
-          assert.equal(s.selected, 1);
-          // check selected item
-          var item = s.selectedItem;
-          assert.equal(s.items[1], item);
-          // check selected class
-          assert.isTrue(item.classList.contains('iron-selected'));
-          done();
-        });
+      teardown(function() {
+        t.items = [];
       });
 
-      test('update items', function(done) {
-        t.items = [{name:'item0'}, {name: 'item1'}, {name: 'item2'}, {name: 'item3'}];
-        setTimeout(function() {
-          // check items
-          assert.equal(s.items.length, 4);
-          // check selected
-          assert.equal(s.selected, 1);
-          // update items
-          t.items = [{name:'foo'}, {name: 'bar'}];
-          setTimeout(function() {
-            // check items
-            assert.equal(s.items.length, 2);
-            // check selected (should still honor the selected)
-            assert.equal(s.selected, 1);
-            // check selected class
-            assert.isTrue(s.querySelector('#bar').classList.contains('iron-selected'));
-            done();
-          });
-        });
+      test('supports repeated items', function() {
+        t.render();
+        // check items
+        assert.equal(s.items.length, 4);
+        // check selected
+        assert.equal(s.selected, 1);
+        // check selected item
+        var item = s.selectedItem;
+        assert.equal(s.items[1], item);
+        // check selected class
+        assert.isTrue(item.classList.contains('iron-selected'));
       });
 
-      test('set selected to something else', function(done) {
-        t.items = [{name:'item0'}, {name: 'item1'}, {name: 'item2'}, {name: 'item3'}];
-        setTimeout(function() {
-          // set selected to something else
-          s.selected = 3;
-          // check selected item
-          var item = s.selectedItem;
-          assert.equal(s.items[3], item);
-          // check selected class
-          assert.isTrue(item.classList.contains('iron-selected'));
-          done();
-        });
+      test('update items', function() {
+        t.render();
+        // check items
+        assert.equal(s.items.length, 4);
+        // check selected
+        assert.equal(s.selected, 1);
+        // update items
+        t.items = [{name:'foo'}, {name: 'bar'}];
+        t.render();
+        // check items
+        assert.equal(s.items.length, 2);
+        // check selected (should still honor the selected)
+        assert.equal(s.selected, 1);
+        // check selected class
+        assert.isTrue(s.querySelector('#bar').classList.contains('iron-selected'));
+      });
+
+      test('set selected to something else', function() {
+        t.render();
+        // set selected to something else
+        s.selected = 3;
+        // check selected item
+        var item = s.selectedItem;
+        assert.equal(s.items[3], item);
+        // check selected class
+        assert.isTrue(item.classList.contains('iron-selected'));
       });
 
     });

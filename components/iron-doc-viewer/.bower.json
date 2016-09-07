@@ -1,6 +1,6 @@
 {
   "name": "iron-doc-viewer",
-  "version": "0.9.4",
+  "version": "1.0.15",
   "authors": [
     "The Polymer Authors"
   ],
@@ -10,33 +10,37 @@
     "web-components",
     "polymer"
   ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/PolymerElements/iron-doc-viewer.git"
+  },
   "main": "iron-doc-viewer.html",
-  "license": "MIT",
+  "license": "http://polymer.github.io/LICENSE.txt",
   "homepage": "https://github.com/PolymerElements/iron-doc-viewer/",
   "ignore": [
     "/.*",
-    "/tests/",
-    "/demo/"
+    "/tests/"
   ],
   "dependencies": {
-    "marked-element": "PolymerElements/marked-element#^0.9.0",
-    "paper-styles": "PolymerElements/paper-styles#^0.9.0",
-    "polymer": "Polymer/polymer#^0.9.0",
-    "prism-element": "PolymerElements/prism-element#^0.9.0"
+    "marked-element": "PolymerElements/marked-element#^1.0.0",
+    "paper-button": "PolymerElements/paper-button#^1.0.0",
+    "paper-styles": "PolymerElements/paper-styles#^1.0.0",
+    "polymer": "Polymer/polymer#^1.5.0",
+    "prism-element": "PolymerElements/prism-element#^1.0.2"
   },
   "devDependencies": {
-    "test-fixture": "PolymerElements/test-fixture#^0.9.0",
-    "iron-component-page": "PolymerElements/iron-component-page#^0.9.0",
-    "webcomponentsjs": "webcomponents/webcomponentsjs#^0.7.0",
-    "web-component-tester": "*"
+    "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",
+    "test-fixture": "PolymerElements/test-fixture#^1.0.0",
+    "web-component-tester": "^4.0.0",
+    "webcomponentsjs": "webcomponents/webcomponentsjs#^0.7.0"
   },
-  "_release": "0.9.4",
+  "_release": "1.0.15",
   "_resolution": {
     "type": "version",
-    "tag": "v0.9.4",
-    "commit": "b19d2eccb93097d9d437c06f1945e705bab754b4"
+    "tag": "v1.0.15",
+    "commit": "f4dca35485bc6b053cb33eb404f2b745dbcc3181"
   },
   "_source": "git://github.com/PolymerElements/iron-doc-viewer.git",
-  "_target": "^0.9.0",
+  "_target": "^1.0.1",
   "_originalSource": "PolymerElements/iron-doc-viewer"
 }
