@@ -23,11 +23,11 @@
     "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",
     "web-component-tester": "^4.0.0"
   },
-  "_release": "9052ffb0c0",
+  "_release": "55e78213a7",
   "_resolution": {
     "type": "branch",
     "branch": "master",
-    "commit": "9052ffb0c001e9469e8617d57e503bb5f8a5c919"
+    "commit": "55e78213a723b0de06fc0d38832780358e01f7a0"
   },
   "_source": "git://github.com/amiliteev/seed-element.git",
   "_target": "master",

@@ -11,7 +11,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../polymer/polymer.html">
 
 <!--
-An element providing a solution to no problem in particular. Changed text.
+An element providing a solution to no problem in particular.
 
 Example:
 
@@ -23,39 +23,18 @@ Example:
       <h2>Hello seed-element</h2>
     </seed-element>
 
-@demo demo/index.html
 @hero hero.svg
 -->
 
-<dom-module id="seed-element">
-  <template>
-    <style>
-      :host {
-        display: block;
-        box-sizing: border-box;
-      }
-
-      .author img {
-        display: block;
-        float: left;
-        margin-right: 5px;
-        max-height: 100px;
-        max-width: 100px;
-      }
-    </style>
-
-    <h1>&lt;seed-element&gt;</h1>
-    <content></content>
-    <p class="author">
-      <img src$="{{author.image}}">
-      Cheers,<br/>
-      <span class="name">{{author.name}}</span>
-    </p>
-  </template>
+<dom-module id="seed-behavior">
 
   <script>
-    Polymer({
-      is: 'seed-element',
+  
+    /**
+     * Some very cool behavior. Assign to your elements if you dare. 
+     * @polymerBehavior Polymer.SeedBehavior 
+     */
+    Polymer.SeedBehavior = {
 
       properties: {
         /**
@@ -146,6 +125,6 @@ Example:
       fireLasers: function() {
         this.fire('seed-element-lasers', {sound: 'Pew pew!'});
       }
-    });
+    };
   </script>
 </dom-module>
