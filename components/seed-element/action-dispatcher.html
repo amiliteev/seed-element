@@ -22,17 +22,17 @@ limitations under the License.
   PolymerFlow = PolymerFlow || {};
 
 /**
-
- Use PolymerFlow.ActionDispatcher for non-visual elements that process actions emitted by visual
- elements. Action dispatchers usually placed at the application level. Each action dispatcher
- element gets a chance to process the action in the order the elements are present in the
- DOM tree. It is important that action dispatcher elements get two-way data binding to application
- state as follows:
-
-    <root-dispatcher state="{{state}}"></root-dispatcher>
-
- @polymerBehavior PolymerFlow.ActionDispatcher
-*/
+ *
+ * Use PolymerFlow.ActionDispatcher for non-visual elements that process actions emitted by visual
+ * elements. Action dispatchers usually placed at the application level. Each action dispatcher
+ * element gets a chance to process the action in the order the elements are present in the
+ * DOM tree. It is important that action dispatcher elements get two-way data binding to application
+ * state as follows:
+ * 
+ *     <root-dispatcher state="{{state}}"></root-dispatcher>
+ * 
+ * @polymerBehavior PolymerFlow.ActionDispatcher
+ **/
 
   PolymerFlow.ActionDispatcherImpl = {
 
