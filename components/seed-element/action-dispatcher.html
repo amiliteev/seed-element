@@ -15,24 +15,55 @@ limitations under the License.
 -->
 
 <link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="state-aware.html">
+<link rel="import" href="state-mutator.html">
 
 
 <script type="text/javascript" type="text/ecmascript-6">
 
   PolymerFlow = PolymerFlow || {};
 
-/**
- *
- * Use PolymerFlow.ActionDispatcher for non-visual elements that process actions emitted by visual
- * elements. Action dispatchers usually placed at the application level. Each action dispatcher
- * element gets a chance to process the action in the order the elements are present in the
- * DOM tree. It is important that action dispatcher elements get two-way data binding to application
- * state as follows:
- * 
- *     <root-dispatcher state="{{state}}"></root-dispatcher>
- * 
- * @polymerBehavior PolymerFlow.ActionDispatcher
- **/
+  /**
+   * Use PolymerFlow.ActionDispatcher for non-visual elements that process actions emitted by visual
+   * elements. Action dispatchers usually placed at the application level. Each action dispatcher
+   * element gets a chance to process the action in the order the elements are present in the
+   * DOM tree. It is important that action dispatcher elements get two-way data binding to
+   * application state as follows:
+   *
+   *     <action-dispatcher state="{{state}}"></action-dispatcher>
+   *
+   * Action dispatcher elements can include nested action dispatchers, so you can have a
+   * hierarchical organization of action dispatchers.
+   *
+   * ###Example:
+
+     <dom-module id="parent-dispatcher">
+
+     <template>
+     <child-dispatcher-b state="{{state}}"></child-dispatcher-b>
+     <child-dispatcher-a state="{{state}}"></child-dispatcher-a>
+     </template>
+
+     <script>
+
+     Polymer({
+       is: 'root-dispatcher',
+
+       behaviors: [
+         PolymerFlow.ActionDispatcher
+       ],
+
+       [MyApp.Actions.APP_ACTION](detail) {
+       }
+      });
+
+      </script>
+   *
+   *
+   *
+   *
+   * @polymerBehavior PolymerFlow.ActionDispatcher
+   **/
 
   PolymerFlow.ActionDispatcherImpl = {
 
@@ -65,6 +96,8 @@ limitations under the License.
 
   /** @polymerBehavior */
   PolymerFlow.ActionDispatcher = [
+    PolymerFlow.StateAware,
+    PolymerFlow.StateMutator,
     PolymerFlow.ActionDispatcherImpl
   ];
 </script>
