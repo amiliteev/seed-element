@@ -39,25 +39,13 @@ limitations under the License.
 
      <dom-module id="parent-dispatcher">
 
-     <template>
-     <child-dispatcher-b state="{{state}}"></child-dispatcher-b>
-     <child-dispatcher-a state="{{state}}"></child-dispatcher-a>
-     </template>
+       <template>
+         <child-dispatcher-b state="{{state}}"></child-dispatcher-b>
+         <child-dispatcher-a state="{{state}}"></child-dispatcher-a>
+       </template>
 
-     <script>
+     </dom-module>
 
-     Polymer({
-       is: 'root-dispatcher',
-
-       behaviors: [
-         PolymerFlow.ActionDispatcher
-       ],
-
-       [MyApp.Actions.APP_ACTION](detail) {
-       }
-      });
-
-      </script>
    *
    *
    *
