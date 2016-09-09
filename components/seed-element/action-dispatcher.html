@@ -21,35 +21,31 @@ limitations under the License.
 
   PolymerFlow = PolymerFlow || {};
 
-  /**
-   * Use PolymerFlow.ActionDispatcher for non-visual elements that process actions emitted by visual
-   * elements. Action dispatchers usually placed at the application level. Each action dispatcher
-   * element gets a chance to process the action in the order the elements are present in the
-   * DOM tree. It is important that action dispatcher elements get two-way data binding to
-   * application state as follows:
-   *
-   *     <action-dispatcher state="{{state}}"></action-dispatcher>
-   *
-   * Action dispatcher elements can include nested action dispatchers, so you can have a
-   * hierarchical organization of action dispatchers.
-   *
-   * ###Example:
+/**
+Use PolymerFlow.ActionDispatcher for non-visual elements that process actions emitted by visual
+elements. Action dispatchers usually placed at the application level. Each action dispatcher
+element gets a chance to process the action in the order the elements are present in the
+DOM tree. It is important that action dispatcher elements get two-way data binding to
+application state as follows:
 
-     <dom-module id="parent-dispatcher">
+    <action-dispatcher state="{{state}}"></action-dispatcher>
 
-       <template>
-         <child-dispatcher-b state="{{state}}"></child-dispatcher-b>
-         <child-dispatcher-a state="{{state}}"></child-dispatcher-a>
-       </template>
+Action dispatcher elements can include nested action dispatchers, so you can have a
+hierarchical organization of action dispatchers.
 
-     </dom-module>
+###Example:
 
-   *
-   *
-   *
-   *
-   * @polymerBehavior PolymerFlow.ActionDispatcher
-   **/
+    <dom-module id="parent-dispatcher">
+    
+      <template>
+        <child-dispatcher-b state="{{state}}"></child-dispatcher-b>
+        <child-dispatcher-a state="{{state}}"></child-dispatcher-a>
+      </template>
+    
+    </dom-module>
+
+@polymerBehavior PolymerFlow.ActionDispatcher
+*/
 
   PolymerFlow.ActionDispatcherImpl = {
 
