@@ -64,6 +64,8 @@ hierarchical organization of action dispatchers.
 
 ### Example:
 
+#### HTML:
+
     <dom-module id="parent-dispatcher">
     
       <template>
@@ -72,8 +74,9 @@ hierarchical organization of action dispatchers.
       </template>
     
     </dom-module>
-    
-    <script>
+
+#### JavaScript:     
+
       Polymer({
         is: 'parent-dispatcher',
 
@@ -84,7 +87,6 @@ hierarchical organization of action dispatchers.
         MY_ACTION(detail) {
         };
       });
-    <.script>
 
 @polymerBehavior PolymerFlow.ActionDispatcher
 */
