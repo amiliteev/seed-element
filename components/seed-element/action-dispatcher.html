@@ -16,79 +16,48 @@ limitations under the License.
 
 <link rel="import" href="../polymer/polymer.html">
 
-<!--
-
- ### Example 1:
-
-#### HTML:
-
-    <dom-module id="parent-dispatcher">
-    
-      <template>
-        <child-dispatcher-b state="{{state}}"></child-dispatcher-b>
-        <child-dispatcher-a state="{{state}}"></child-dispatcher-a>
-      </template>
-    
-    </dom-module>
-
-#### JavaScript:     
-
-      Polymer({
-        is: 'parent-dispatcher',
-
-        behaviors: [
-          PolymerFlow.ActionDispatcher
-        ],
-
-        MY_ACTION(detail) {
-        };
-      });
-
--->
 
 <script type="text/javascript" type="text/ecmascript-6">
 
   PolymerFlow = PolymerFlow || {};
 
 /**
-Use PolymerFlow.ActionDispatcher for non-visual elements that process actions emitted by visual
-elements. Action dispatchers usually placed at the application level. Each action dispatcher
-element gets a chance to process the action in the order the elements are present in the
-DOM tree. It is important that action dispatcher elements get two-way data binding to
-application state as follows:
+ Use PolymerFlow.ActionDispatcher for non-visual elements that process actions emitted by visual
+ elements. Action dispatchers usually placed at the application level. Each action dispatcher
+ element gets a chance to process the action in the order the elements are present in the
+ DOM tree. It is important that action dispatcher elements get two-way data binding to
+ application state as follows:
 
     <action-dispatcher state="{{state}}"></action-dispatcher>
 
-Action dispatcher elements can include nested action dispatchers, so you can have a
-hierarchical organization of action dispatchers.
+ Action dispatcher elements can include nested action dispatchers, so you can have a
+ hierarchical organization of action dispatchers.
 
- ### Example 1:
-
-#### HTML:
+ ### Example:
+ #### HTML:
 
     <dom-module id="parent-dispatcher">
-    
       <template>
-        <child-dispatcher-b state="{{state}}"></child-dispatcher-b>
         <child-dispatcher-a state="{{state}}"></child-dispatcher-a>
+        <child-dispatcher-b state="{{state}}"></child-dispatcher-b>
       </template>
-    
     </dom-module>
 
-#### JavaScript:     
+ #### JavaScript:
 
-      Polymer({
-        is: 'parent-dispatcher',
+     Polymer({
+       is: 'parent-dispatcher',
 
-        behaviors: [
-          PolymerFlow.ActionDispatcher
-        ],
+       behaviors: [
+         PolymerFlow.ActionDispatcher
+       ],
 
-        MY_ACTION(detail) {
-        };
-      });
+       MY_ACTION(detail) {
+         // do MY_ACTION processing here
+       };
+     });
 
-@polymerBehavior PolymerFlow.ActionDispatcher
+ @polymerBehavior PolymerFlow.ActionDispatcher
 */
 
   PolymerFlow.ActionDispatcherImpl = {
@@ -122,7 +91,9 @@ hierarchical organization of action dispatchers.
 
   /** @polymerBehavior */
   PolymerFlow.ActionDispatcher = [
+    PolymerFlow.StateAware,
+    PolymerFlow.StateMutator,
     PolymerFlow.ActionDispatcherImpl
   ];
+  
 </script>
-
