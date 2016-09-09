@@ -43,6 +43,21 @@ hierarchical organization of action dispatchers.
       </template>
     
     </dom-module>
+    
+    <script>
+
+      Polymer({
+        is: 'parent-dispatcher',
+
+        behaviors: [
+          PolymerFlow.ActionDispatcher
+        ],
+
+        MY_ACTION(detail) {
+        };
+      });
+
+    </script>
 
 @polymerBehavior PolymerFlow.ActionDispatcher
 */
