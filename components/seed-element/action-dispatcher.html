@@ -17,6 +17,33 @@ limitations under the License.
 <link rel="import" href="../polymer/polymer.html">
 
 <!--
+
+### Example:
+
+    <dom-module id="parent-dispatcher">
+    
+      <template>
+        <child-dispatcher-b state="{{state}}"></child-dispatcher-b>
+        <child-dispatcher-a state="{{state}}"></child-dispatcher-a>
+      </template>
+    
+    </dom-module>
+    
+    <script>
+      Polymer({
+        is: 'parent-dispatcher',
+
+        behaviors: [
+          PolymerFlow.ActionDispatcher
+        ],
+
+        MY_ACTION(detail) {
+        };
+      });
+    <.script>
+
+-->
+
 <script type="text/javascript" type="text/ecmascript-6">
 
   PolymerFlow = PolymerFlow || {};
@@ -55,7 +82,7 @@ hierarchical organization of action dispatchers.
         MY_ACTION(detail) {
         };
       });
-    </script>
+    <.script>
 
 @polymerBehavior PolymerFlow.ActionDispatcher
 */
@@ -94,4 +121,4 @@ hierarchical organization of action dispatchers.
     PolymerFlow.ActionDispatcherImpl
   ];
 </script>
--->
+
