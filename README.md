@@ -37,12 +37,12 @@ hierarchical organization of action dispatchers.
 
 #### HTML:
 
-   <dom-module id="parent-dispatcher">
-     <template>
-       <child-dispatcher-a state="{{state}}"></child-dispatcher-a>
-       <child-dispatcher-b state="{{state}}"></child-dispatcher-b>
-     </template>
-   </dom-module>
+    <dom-module id="parent-dispatcher">
+      <template>
+        <child-dispatcher-a state="{{state}}"></child-dispatcher-a>
+        <child-dispatcher-b state="{{state}}"></child-dispatcher-b>
+      </template>
+    </dom-module>
 
 #### JavaScript:
 
