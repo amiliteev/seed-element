@@ -289,3 +289,55 @@ So in the example above if user clicks on Save button with name not entered, the
 will pass and `MY_SAVE` action will be emitted with model passed as a parameter and `'model'` as
 path.
 
+## State Aware
+
+Key behavior that must be assigned to all elements that need to access
+application state and/or have access to the application element. The element is
+notified of any changes to application's state, as well as all its properties
+when they're modified by state
+
+
+### Example:
+
+#### HTML:
+
+```html
+<template>
+ <div>Value A: [[state.valueA]]</div>
+ <div>Value B: [[valueB]]</div>
+</template>
+```
+
+#### JavaScript:
+
+```javascript
+Polymer({
+  is: 'my-element',
+  
+  properties: {
+   valueB: String
+  },
+  
+  behaviors: [
+   PolymerFlow.StateAware
+  ]
+});
+```
+
+When above element is declared as follows:
+
+```html
+<my-element state-path="state.myElement"></my-element>
+```
+
+it will be notified about changes (and render those) to `state.valueA` or
+`state.myElement.valueB` in action dispatchers or other state mutating
+elements.
+
+## State Mutator
+
+Some non-visual elements, like action dispatchers, need to modify application
+state, in which case they should have this behavior assigned. Implements state-
+aware and re-declares state property with notify attribute. State mutator elements
+are only supposed to exist at the application level.
+
