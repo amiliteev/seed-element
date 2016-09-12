@@ -181,3 +181,111 @@ in the application state tree. Assuming it has been declared as follows:
 it will be rendering `state.listElement.list` and observing changes to it. Each `model-view`
 within dom-repeat template will have `state-path` property  set to
 `state.listElement.list.#<index>`  where `index` is the element's index in the array.
+
+## Model View
+
+Element rendering data represented by a single object (model) in the
+application state should use ModelView behavior. Model View is a powerful
+concept that encapsulates model data (likely the data received from the
+server and to be persisted to the server if modified as a result of user
+actions), status (validity of the data, flag that data was modified,
+notifications for the user, etc.). Auxiliary data supplied by action
+dispatchers and needed for display purposes or element's logic
+should be defined as element’s properties. Same applies to data
+created/modified by the element but not intended to be persisted.
+If `StateAware` behavior is used along with `ModelView`, you can take advantage
+of statePath property that indicates path to the element's state in the
+application state tree. Whenever any data is mutated by action dispatchers
+at statePath or below, the element will receive notification of its
+properties' change (even if there is no explicit binding for those
+properties). See `PolymerFlow.StateAware` for more details and example.
+ModelView behavior defines some properties that are intended to be overridden
+in the elements:
+
++ `validation` property allows to specify validation rules
+that will be applied when validateModel() method is called. As a result of
+this method validation status will be updated to indicate result for each
+model field that has validation rule associated with it.
++ `saveAction` property indicates which action should be emitted when
+saveModel method is called to perform save of the model.
++ `getMessage` should be overridden with the function returning message
+string for given error code (to translate validation error code to message)
+
+
+### Example:
+
+#### HTML:
+
+```html
+<template>
+ Model: [[model.id]]
+ <paper-input value="{{model.name}}"
+              label="Name"
+              invalid="[[status.validation.name.invalid]]"
+              error-message="[[status.validation.name.errorMessage]]">
+ </paper-input>
+ <paper-button on-tap="onSaveTap">Save</paper-button>
+</template>
+```
+
+#### JavaScript:
+
+```javascript
+Polymer({
+  is: "my-model",
+  saveAction: 'MY_SAVE',
+  behaviors: [
+   PolymerFlow.ModelView
+  ],
+  
+  validation: {
+   name: (value) => {
+     if (!value || !value.trim()) {
+       return 'Name is not specified';
+     }
+   }
+  },
+  
+  attached() {
+   this.fetchData();
+  },
+  
+  fetchData() {
+   this.emitAction({
+     type: 'MY_FETCH',
+     path: 'model'
+   });
+  },
+  
+  onSaveTap() {
+   this.validateAndSave();
+  }
+});
+```
+
+In the example above model view has input field for `name` property and Save button. On
+element attach the action is emitted to fetch the model's data. Note that in `emitAction()` method
+the path is specified as `'model'`. ActionEmitter behavior is responsible of expanding the path
+with element's state path, ensuring that when action dispatcher gets to process the action, the
+path contains full path in the state tree. So assuming that `my-model` is declared as follows:
+
+```html
+<my-model state-path="state.myModel"></my-model>
+```
+
+the path in `MY_FETCH` action gets expanded to `state.myModel.model`.
+
+`validation` property is an object that contains methods for fields validation. The keys in
+this object should match model field names, the values are validation methods. Method receives
+current value of the field and should return non-falsy value (string or error code) if the value
+of the field didn't pass validation. `status.validation` object will be populated with the results
+of validation with the keys matching field names and values being objects containing two fields:
+- `invalid`: true when the value is not valid
+- `errorMessage`: the message to show to user
+
+
+So in the example above if user clicks on Save button with name not entered, they will get
+'Name is not specified' error message on the input element. When the name is non-empty, validation
+will pass and `MY_SAVE` action will be emitted with model passed as a parameter and `'model'` as
+path.
+
