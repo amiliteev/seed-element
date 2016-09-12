@@ -19,3 +19,44 @@ This library implements the architectural pattern called 'unidirectional data fl
 ## Documentation
 
 Polymer Flow is implemented as a set of behaviors that developers assign to their elements. It is assumed that each application has a singleton application element that maintains state of entire application. Each element that needs access to the data is bound, directly or indirectly, to sub-tree of application state tree. Two way data binding is never used to send data up, from child to parent, so only parent elements send data to children using one way data binding. Child elements, in turn, send the events (emit actions) responding to user actions, indicating that the data may need to be modified. Special non-visual elements called action dispatchers mutate the data, then all elements listening to the data changes render new data. 
+
+## Action Dispatcher
+
+Use PolymerFlow.ActionDispatcher for non-visual elements that process actions emitted by visual
+elements. Action dispatchers usually placed at the application level. Each action dispatcher
+element gets a chance to process the action in the order the elements are present in the
+DOM tree. It is important that action dispatcher elements get two-way data binding to
+application state as follows:
+
+   <action-dispatcher state="{{state}}"></action-dispatcher>
+
+Action dispatcher elements can include nested action dispatchers, so you can have a
+hierarchical organization of action dispatchers.
+
+### Example:
+
+#### HTML:
+
+   <dom-module id="parent-dispatcher">
+     <template>
+       <child-dispatcher-a state="{{state}}"></child-dispatcher-a>
+       <child-dispatcher-b state="{{state}}"></child-dispatcher-b>
+     </template>
+   </dom-module>
+
+#### JavaScript:
+
+    Polymer({
+      is: 'parent-dispatcher',
+
+      behaviors: [
+        PolymerFlow.ActionDispatcher
+      ],
+
+      MY_ACTION(detail) {
+        // do MY_ACTION processing here
+        // return false if you want to prevent other action dispatchers from
+        // further processing of this action
+      };
+    });
+
