@@ -109,7 +109,9 @@ Polymer({
 In the example above, `<some-element>` will receive notification of any changes to the state,
 as if it was declared as follows:
 
-    <some-element state="[[state]]"></some-element>
+```html
+<some-element state="[[state]]"></some-element>
+```
 
 Also, if `<some-element>` has `propertyA`, on element attach this property will be assigned
 the value of `state.someElement.propertyA`, and receive all notification of the property change
@@ -125,3 +127,57 @@ declaration:
 Note that data binding is one-way in both cases. Although state-aware elements can modify their
 own state, it is considered their private state and no other elements will be notified of those
 changes.
+
+## List View
+
+This behavior used by elements that need to render multiple models backed
+by 'list' array. You may want to use ModelView to render individual
+models in the list. The behavior supports element selection by setting predefined
+$selected property on list elements.
+
+### Example:
+
+#### HTML:
+
+```html
+<ul>
+  <template id="list-template" is="dom-repeat" items="[[list]]">
+    <li id="[[item.id]]">
+      <paper-checkbox checked="{{item.$selected}}">
+      <model-view state-path="[[statePath]].list.#[[index]]"></model-view>
+    </li>
+  </template>
+</ul>
+Selected: [[selectedCount]] items
+<paper-button on-tap="onDeleteTap">Delete</paper-button>
+```
+
+#### JavaScript:
+
+```javascript
+Polymer({
+
+  is: "list-element",
+
+  behaviors: [
+    PolymerFlow.ListView,
+    PolymerFlow.StateAware
+  ],
+
+  onDeleteTap() {
+    this.deleteSelected();
+  }
+
+});
+```
+
+In the example above list view element is also state-aware, meaning it has its own place
+in the application state tree. Assuming it has been declared as follows:
+
+```html
+<list-element state-path="state.listElement"></list-element>
+```
+
+it will be rendering `state.listElement.list` and observing changes to it. Each `model-view`
+within dom-repeat template will have `state-path` property  set to
+`state.listElement.list.#<index>`  where `index` is the element's index in the array.
