@@ -37,27 +37,29 @@ hierarchical organization of action dispatchers.
 
 #### HTML:
 ```html
-    <dom-module id="parent-dispatcher">
-      <template>
-        <child-dispatcher-a state="{{state}}"></child-dispatcher-a>
-        <child-dispatcher-b state="{{state}}"></child-dispatcher-b>
-      </template>
-    </dom-module>
+<dom-module id="parent-dispatcher">
+<template>
+  <child-dispatcher-a state="{{state}}"></child-dispatcher-a>
+  <child-dispatcher-b state="{{state}}"></child-dispatcher-b>
+</template>
+</dom-module>
 ```    
 
 #### JavaScript:
 
-    Polymer({
-      is: 'parent-dispatcher',
-
-      behaviors: [
-        PolymerFlow.ActionDispatcher
-      ],
-
-      MY_ACTION(detail) {
-        // do MY_ACTION processing here
-        // return false if you want to prevent other action dispatchers from
-        // further processing of this action
-      };
-    });
+```javascript
+Polymer({
+  is: 'parent-dispatcher',
+  
+  behaviors: [
+   PolymerFlow.ActionDispatcher
+  ],
+  
+  MY_ACTION(detail) {
+   // do MY_ACTION processing here
+   // return false if you want to prevent other action dispatchers from
+   // further processing of this action
+  };
+});
+```
 
