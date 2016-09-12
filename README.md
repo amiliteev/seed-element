@@ -16,7 +16,7 @@ We feel that Polymer, and web components in general, is a great concept that tak
 
 This library implements the architectural pattern called 'unidirectional data flow'. It works best if application logic involves complicated data management, when multiple elements need to have access to or modify the same data. Even though the pattern can be implemented just using built-in Polymer concepts, such as custom events and data binding, the Polymer Flow library provides a useful set of tools and abstractions, and helps to structure application code.
 
-## Documentation
+## Implementation
 
 Polymer Flow is implemented as a set of behaviors that developers assign to their elements. It is assumed that each application has a singleton application element that maintains state of entire application. Each element that needs access to the data is bound, directly or indirectly, to sub-tree of application state tree. Two way data binding is never used to send data up, from child to parent, so only parent elements send data to children using one way data binding. Child elements, in turn, send the events (emit actions) responding to user actions, indicating that the data may need to be modified. Special non-visual elements called action dispatchers mutate the data, then all elements listening to the data changes render new data. 
 
@@ -63,3 +63,65 @@ Polymer({
 });
 ```
 
+## Action Emitter
+
+Whenever element needs to emit an action, this behavior should be used. Action object must always include type property.
+
+## Application State
+
+Assign this behavior to your main application element. It provides global
+state and functionality to maintain individual elements states. This behavior
+is responsible for notifying all state-aware elements about their state
+changes (provided those elements have `statePath` property defined).
+Only one element in the application is supposed to have this behavior.
+
+### Example:
+
+#### HTML:
+```html
+<template>
+  <!-- action dispatchers in the order of action processing -->
+  <action-dispatcher-a state="{{state}}"></action-dispatcher-a>
+  <action-dispatcher-b state="{{state}}"></action-dispatcher-b>
+  
+  <!-- state-aware elements -->
+  <some-element state-path="state.someElement"></some-element>
+</template>
+```
+#### JavaScript:
+
+```javascript
+Polymer({
+  is: 'my-app',
+
+  behaviors: [
+    PolymerFlow.ApplicationState
+  ],
+
+  attached() {
+    this.state = {
+      someElement: {}
+    }
+  }
+});
+```
+
+In the example above, `<some-element>` will receive notification of any changes to the state,
+as if it was declared as follows:
+
+    <some-element state="[[state]]"></some-element>
+
+Also, if `<some-element>` has `propertyA`, on element attach this property will be assigned
+the value of `state.someElement.propertyA`, and receive all notification of the property change
+whenever the corresponding data in state tree changes. This essentially translates to following
+declaration:
+
+```html
+<some-element state="[[state]]"
+              propertyA="[[state.someElement.propertyA]]">
+</some-element>
+```
+
+Note that data binding is one-way in both cases. Although state-aware elements can modify their
+own state, it is considered their private state and no other elements will be notified of those
+changes.
