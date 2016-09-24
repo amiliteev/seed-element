@@ -16,4 +16,4 @@ This library implements the architectural pattern called 'unidirectional data fl
 
 Polymer Flow is implemented as a set of behaviors that developers assign to their elements. It is assumed that each application has a singleton application element that maintains state of entire application. Each element that needs access to the data is bound, directly or indirectly, to sub-tree of application state tree. Two way data binding is never used to send data up, from child to parent, so only parent elements send data to children using one way data binding. Child elements, in turn, send the events (emit actions) responding to user actions, indicating that the data may need to be modified. Special non-visual elements called action dispatchers mutate the data, then all elements listening to the data changes render new data. 
 
-[Application State](application-state.html)
+[Application State](components/seed-element/#PolymerFlow.StateAware)
